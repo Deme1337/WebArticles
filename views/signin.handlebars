@@ -1,0 +1,43 @@
+<!-- views/signin.handlebars -->
+<div class="jumbotron">
+  <h1>Kirjaudu</h1>
+  <p>Kirjaudu sisään tilillesi, jotta voit luoda ja lukea artikkeleita</p>
+  <p>
+    <a data-toggle="collapse" href="#local" class="btn btn-warning btn-lg" role="button"><span class="glyphicon glyphicon-user"></span> Sign in Locally</a>
+  </p>
+
+  <div id="local" class="collapse">
+    <a data-toggle="collapse" href="#local-sign-in" class="btn btn-default btn-md" role="button">Minulla on jo tili</a>
+    <a data-toggle="collapse" href="#local-reg" class="btn btn-default btn-md" role="button">Minun pitää luoda uusi tili</a>
+  </div>
+
+  <form id="local-sign-in" class="collapse" action="/login" method="post">
+    <div>
+        <p></p>
+        <label>Käyttäjä:</label>
+        <input type="text" name="username"/>
+    </div>
+    <div>
+        <label>Salasana:</label>
+        <input type="password" name="password"/>
+    </div>
+    <div>
+        <input type="submit" class="btn btn-primary btn-sm" value="Log In"/>
+    </div>
+  </form>
+
+  <form id="local-reg" class="collapse" action="/local-reg" method="post">
+    <div>
+        <p></p>
+        <label>Uusi käyttäjä:</label>
+        <input type="text" name="username"/>
+    </div>
+    <div>
+        <label>Uusi salasana:</label>
+        <input type="password" name="password"/>
+    </div>
+    <div>
+        <input type="submit" class="btn btn-primary btn-sm" value="Register"/>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,16 @@
+{
+  "name": "userAuth",
+  "main": "cloud.js",
+  "dependencies": {
+    "bcryptjs": "^0.7.12",
+    "body-parser": "^1.17.2",
+    "express": "^3.5.0",
+    "express-handlebars": "^3.0.0",
+    "method-override": "^2.3.9",
+    "mongodb": "^2.2.11",
+    "morgan": "^1.8.2",
+    "passport": "^0.2.2",
+    "passport-local": "^1.0.0",
+    "q": "^1.0.1"
+  }
+}
