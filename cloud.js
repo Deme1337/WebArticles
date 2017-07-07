@@ -64,7 +64,7 @@ app.listen(port);
 console.log("listening on " + port + "!");
 
 
-
+var deleteFormPrototype = fs.readFileSync("./views/protoviews/deleteform.html", 'utf-8');
 
 //===============PASSPORT=================
 // Use the LocalStrategy within Passport to login/"signin" users.
@@ -143,7 +143,7 @@ function saveArticle(user, title, article, img){
 /*==========ARTICLE FORMATTING ================== */
 function formatArticles(data, user){
   var articleView = '';
-  var deleteFormPrototype = fs.readFileSync("./views/protoviews/deleteform.html", 'utf-8');
+  
   console.log(user+ "    " + deleteFormPrototype);
   if(!data){
     articleView = "Error";
@@ -171,15 +171,54 @@ function formatArticles(data, user){
 
 }
 
+
+function getLoggedUserPosts(articles, username){
+  var userArticleView = '';
+  if(!articles){
+    return 'Error';
+  }
+  if(articles){
+      for(var i = articles.length -1; i >= 0; i--){
+      if(articles[i].username === username ){
+        
+        userArticleView += '<h1>'+articles[i].title+'</h1>';
+
+        if(articles[i].image) userArticleView += '<img src="'+ articles[i].image +'" width = "300px" height = "300px"/>';
+        userArticleView += '<p>'+articles[i].article+'</p><br><label>Creator: </label>'+articles[i].username;
+        userArticleView += deleteFormPrototype.replace('{{val}}', articles[i].title) + '<hr>';
+      }else{
+        i--;
+      }
+
+    }
+    return userArticleView;
+  }else{
+    return userArticleView;
+  }
+
+}
+
+
+
 function changeUserAvatar(username, password, url){
   funct.updateAccount(username,password, url);
 }
 
 
 
+
 /*	Here is routes */
 app.get('/', function(req, res){
-  res.render('home', {user: req.user});
+  if(req.user){
+    var articles = funct.articleSearch();
+    if(!articles) res.render('home', {user: req.user});
+    articles.then(function(art){
+      var userArticlesView = getLoggedUserPosts(art, req.user.username);
+      res.render('home', {user: req.user, posts: userArticlesView});
+    });
+  }else{
+    res.render('home', {user: req.user});
+  }
 });
 
 //displays our signup page
@@ -213,7 +252,7 @@ app.get('/news', function(req, res){
 
 app.post('/deletearticle', function(req,res){
   funct.articleDelete(req.body.atitle);
-  res.redirect('/news');
+  res.redirect('/');
 });
 
 
