@@ -218,8 +218,20 @@ app.post('/deletearticle', function(req,res){
 
 
 app.post('/changeavatar', function(req, res){
-  changeUserAvatar(req.user.username, req.user.password, req.body.avatarurl);
-  res.redirect('/');
+
+  let imageFile = req.files.avatarimage;
+  imageFile.mv("./public/siteimages/" + imageFile.name, function(err){
+          if(err){
+            console.log("Cannot save image");
+            res.redirect('/');
+          }else{
+            console.log(req.body.articletitle + "     " + req.body.articletext + " Image: /siteimages/" + imageFile.name);
+            
+            changeUserAvatar(req.user.username, req.user.password, "./public/siteimages/" + imageFile.name);
+            res.redirect('/');
+          }
+        });
+
 });
 
 

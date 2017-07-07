@@ -11,10 +11,10 @@
       {{/if}}
       <p>Username: {{user.username}}</p>
       <p>Avatar: <img src="{{user.avatar}}" width="30px" height="30px"/></p>
-      <form class="form-inline" method="POST" action="/changeavatar">
+      <form class="form-inline" method="POST" action="/changeavatar" enctype="multipart/form-data">
       <div class="form-group">
-        <label for="avatarurl"> Avatar Url: </label>
-        <input type="text" class="form-control" id="avatarurl" name="avatarurl">
+        <label for="avatarurl"> Avatar:</label>
+        <input type="file" name="avatarimage" id="avatarimage" ><br>
         <button type="submit" class="btn btn-default">Vaihda</button>
       </div>
     </div>
