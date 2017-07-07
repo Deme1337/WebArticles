@@ -179,15 +179,14 @@ function getLoggedUserPosts(articles, username){
   }
   if(articles){
       for(var i = articles.length -1; i >= 0; i--){
-      if(articles[i].username === username ){
-        
+ 
+      if(articles[i].username == username ){
+     
         userArticleView += '<h1>'+articles[i].title+'</h1>';
 
         if(articles[i].image) userArticleView += '<img src="'+ articles[i].image +'" width = "300px" height = "300px"/>';
         userArticleView += '<p>'+articles[i].article+'</p><br><label>Creator: </label>'+articles[i].username;
         userArticleView += deleteFormPrototype.replace('{{val}}', articles[i].title) + '<hr>';
-      }else{
-        i--;
       }
 
     }
