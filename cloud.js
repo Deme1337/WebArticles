@@ -65,6 +65,14 @@ console.log("listening on " + port + "!");
 
 
 var deleteFormPrototype = fs.readFileSync("./views/protoviews/deleteform.html", 'utf-8');
+var articlediv = fs.readFileSync("./views/protoviews/article.html", 'utf-8');
+
+
+
+
+
+
+
 
 //===============PASSPORT=================
 // Use the LocalStrategy within Passport to login/"signin" users.
@@ -151,9 +159,19 @@ function formatArticles(data, user){
   }else{
     articleView += '<div class="jumbotron">';
     for(var i = data.length-1; i >= 0; i--){
-      articleView += '<h1>'+data[i].title+'</h1>';
-      if(data[i].image) articleView += '<img src="'+ data[i].image +'" width = "300px" height = "300px"/>';
-      articleView += '<p>'+data[i].article+'</p><br><label>Creator: </label>'+data[i].username+ '<hr>';
+
+      var articlediv1 = articlediv.replace('{{header}}', data[i].title);
+
+      //Check if article has an image
+      if(data[i].image) articlediv1 = articlediv1.replace('{{imgsrc}}', data[i].image);
+      else articlediv1 = articlediv1.replace('<img src={{imgsrc}} width = "100%" height = "70%"/>', '');
+
+      articlediv1 = articlediv1.replace('{{article-content}}', data[i].article);
+      articlediv1 = articlediv1.replace('{{user}}', data[i].username);
+
+      articleView += articlediv1;
+
+      
 
       if(user) {
         if(user.isAdmin){
