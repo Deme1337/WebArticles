@@ -53,7 +53,7 @@ exports.articleDelete = function(title){
 }
 
 /* saves the article data and image file path */
-exports.articleSave = function (username, title, article, img) {
+exports.articleSave = function (username, title, article, img, date) {
   var deferred = Q.defer();
 
   MongoClient.connect(articleUrl, function (err, db) {
@@ -65,13 +65,15 @@ exports.articleSave = function (username, title, article, img) {
         "username": username,
         "title": title,
         "article": article,
-        "image": img
+        "image": img,
+        "date": date
       };
     }else{
       userArticle = {
         "username": username,
         "title": title,
-        "article": article
+        "article": article,
+        "date": date
       };
     }
  

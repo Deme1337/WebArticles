@@ -16,10 +16,11 @@
   </head>
 
   <body>
-
- 
-
-      <nav class="navbar navbar-inverse" role="navigation">
+  
+  <div class="container" >
+  <div class="jumbotron" style="margin-bottom: -20px;"><img src="./images/logo.png" /> </div>
+  
+  <nav class="navbar navbar-inverse" role="navigation">
 
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -82,7 +83,7 @@
     {{#if notice}}
       <p class="alert alert-info">{{notice}}</p>
     {{/if}}
- <div class="container" >
+
     <!--where our other templates will insert-->
     {{{body}}}
 

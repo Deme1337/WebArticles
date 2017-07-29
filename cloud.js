@@ -144,14 +144,16 @@ function ensureAuthenticated(req, res, next) {
 /* ===============ARTICLE CREATION AND READING=================== */
 
 function saveArticle(user, title, article, img){
-  return funct.articleSave(user.username, title, article, img);
+  var date = new Date();
+  return funct.articleSave(user.username, title, article, img, date);
 }
 
 
 /*==========ARTICLE FORMATTING ================== */
 function formatArticles(data, user){
   var articleView = '';
-  
+
+
   console.log(user+ "    " + deleteFormPrototype);
   if(!data){
     articleView = "Error";
@@ -167,7 +169,10 @@ function formatArticles(data, user){
       else articlediv1 = articlediv1.replace('<img src={{imgsrc}} width = "100%" height = "70%"/>', '');
 
       articlediv1 = articlediv1.replace('{{article-content}}', data[i].article);
-      articlediv1 = articlediv1.replace('{{user}}', data[i].username);
+      var datetime = "";
+      if(data[i].date) datetime = "<hr>Date: " + data[i].date.toString(); 
+
+      articlediv1 = articlediv1.replace('{{user}}', data[i].username + " " + datetime);
 
       articleView += articlediv1;
 
@@ -293,6 +298,7 @@ app.post('/changeavatar', function(req, res){
 
 
 app.post('/postarticle', function(req, res){
+  if(!req.user) res.error
     if(!req.files){
       console.log("No image: " + req.body.articletitle + "     " + req.body.articletext);
       var isSaved = saveArticle(req.user, req.body.articletitle, req.body.articletext, null);
@@ -318,6 +324,7 @@ app.post('/postarticle', function(req, res){
 
 
 app.get('/create', function(req, res){
+  if(!req.user) return res.redirect('/');
   res.render('createarticle', {user: req.user});
 });
 
