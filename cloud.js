@@ -9,11 +9,12 @@ var express = require('express'),
     session = require('express-session'),
     passport = require('passport'),
     LocalStrategy = require('passport-local'),
-    fs = require('fs');
+    fs = require('fs'),
+    Q = require('q');
 
 
 const fileUpload = require('express-fileupload');
-
+var parser = require('rss-parser');
 
 
 
@@ -229,6 +230,24 @@ function changeUserAvatar(username, password, url){
 
 
 
+/* =========TESTS=============== */
+function parseRSS(){
+  var deferred = Q.defer();
+  parser.parseURL('http://feeds.feedburner.com/ampparit-politiikka', function(err, parsed) {
+    if(err) deferred.reject('Found error: ' + err.toString());
+    var rss = "<h1>Ampparit politiikka</h1>";
+    parsed.feed.entries.forEach(function(entry) {
+      rss += '<p><a href="'+entry.link+'">'+entry.title+'</a></p>';
+    });
+  deferred.resolve(rss);
+  });
+ return deferred.promise;   
+}
+
+
+/* =========TESTS=============== */
+
+
 /*	Here is routes */
 app.get('/', function(req, res){
   if(req.user){
@@ -246,6 +265,16 @@ app.get('/', function(req, res){
 //displays our signup page
 app.get('/signin', function(req, res){
   res.render('signin');
+});
+
+
+app.get('/rssfeed', function(req, res){
+    var rss = parseRSS();
+    rss.then(function(result){
+    console.log(result);
+    res.render('article',{user: req.user, article: result});
+    }).done();
+
 });
 
 
